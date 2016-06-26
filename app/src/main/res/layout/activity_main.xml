@@ -24,12 +24,12 @@
                 android:gravity="center"
                 android:layout_weight="1">
 
-                <TextView
+                <com.softdesign.devintensive.ui.view.TextViewRoboto
                     android:id="@+id/rating_count_text"
                     style="@style/white_text"
                     android:textSize="@dimen/font_size_24"
                     android:text="5"/>
-                <TextView
+                <com.softdesign.devintensive.ui.view.TextViewRoboto
                     style="@style/white_text"
                     android:text="@string/rating"/>
             </LinearLayout>
@@ -44,12 +44,12 @@
                 android:gravity="center"
                 android:layout_weight="2">
 
-                <TextView
+                <com.softdesign.devintensive.ui.view.TextViewRoboto
                     android:id="@+id/code_strings_count_text"
                     style="@style/white_text"
                     android:textSize="@dimen/font_size_24"
                     android:text="5"/>
-                <TextView
+                <com.softdesign.devintensive.ui.view.TextViewRoboto
                     style="@style/white_text"
                     android:text="@string/code_strings_text"/>
             </LinearLayout>
@@ -64,12 +64,12 @@
                 android:gravity="center"
                 android:layout_weight="1">
 
-                <TextView
+                <com.softdesign.devintensive.ui.view.TextViewRoboto
                     android:id="@+id/project_count_text"
                     style="@style/white_text"
                     android:textSize="@dimen/font_size_24"
                     android:text="5"/>
-                <TextView
+                <com.softdesign.devintensive.ui.view.TextViewRoboto
                     style="@style/white_text"
                     android:text="@string/projects_text"/>
             </LinearLayout>
@@ -89,7 +89,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-                    <EditText
+                    <com.softdesign.devintensive.ui.view.EditTextRoboto
                         android:id="@+id/phone_edit"
                         style="@style/edit_text_disabled"
                         android:hint="@string/mobile_number"
@@ -116,7 +116,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-                    <EditText
+                    <com.softdesign.devintensive.ui.view.EditTextRoboto
                         android:id="@+id/email_edit"
                         style="@style/edit_text_disabled"
                         android:hint="@string/email"
@@ -143,7 +143,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-                    <EditText
+                    <com.softdesign.devintensive.ui.view.EditTextRoboto
                         android:id="@+id/vk_edit"
                         style="@style/edit_text_disabled"
                         android:hint="@string/vk_profile"
@@ -160,17 +160,17 @@
         <!--Репозиторий-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/size_larger_72"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ImageView
                 style="@style/icon.left"
                 android:src="@drawable/github_icon" />
             <LinearLayout
-                style="@style/text_data">
+                style="@style/text_data" >
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-                    <EditText
+                    <com.softdesign.devintensive.ui.view.EditTextRoboto
                         android:id="@+id/github_edit"
                         style="@style/edit_text_disabled"
                         android:hint="@string/repo"
@@ -196,7 +196,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-                    <EditText
+                    <com.softdesign.devintensive.ui.view.EditTextRoboto
                         android:id="@+id/about_myself_edit"
                         style="@style/edit_text_disabled"
                         android:hint="@string/about_myself"
