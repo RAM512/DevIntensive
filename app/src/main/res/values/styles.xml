@@ -31,7 +31,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/spacing_small_32</item>
         <item name="android:layout_marginRight">@dimen/spacing_smaller_16</item>
-        <item name="android:gravity">bottom</item>
     </style>
     
     <style name="horizontal_line">

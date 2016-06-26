@@ -5,9 +5,6 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-/**
- * Created by Alex on 26.06.2016.
- */
 public class EditTextRoboto extends EditText {
 
     public EditTextRoboto(Context context, AttributeSet attrs, int defStyleAttr) {
