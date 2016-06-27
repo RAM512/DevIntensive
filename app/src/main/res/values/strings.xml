@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">DevIntensive</string>
+    <string name="app_name">Алексей Родионов</string>
+    <string name="mobile_number">Мобильный номер</string>
+    <string name="email">E-mail</string>
+    <string name="vk_profile">Профиль в VK</string>
+    <string name="repo">Репозиторий</string>
+    <string name="about_myself">О себе</string>
+    <string name="my_phone">8 (950) xxx-72-69</string>
+    <string name="my_email">taker.ram512@gmail.com</string>
+    <string name="my_vk">vk.com/ram512</string>
+    <string name="my_repo">github.com/RAM512/DevIntensive</string>
+    <string name="my_about_myself">Двуног, двурук, двуглаз и многозуб. sdfkhsdfkhj sdkfjhsdkfjhsdfkhj lksdjfsldkfjsd flksdjflksdfjsdlf sdfsdflsdkfj sdlkfjsdlkfjsdflk sdlkfjsdlkfjsdf sdlkfjsdlfkjsdf sdfsdfsdf</string>
+    <string name="rating">Рейтинг</string>
+    <string name="code_strings_text">Написано строк кода</string>
+    <string name="projects_text">Проектов</string>
 </resources>
