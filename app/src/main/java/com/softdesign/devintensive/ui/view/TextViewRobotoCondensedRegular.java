@@ -6,21 +6,27 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class TextViewRoboto extends TextView {
+public class TextViewRobotoCondensedRegular extends TextView {
 
-    public TextViewRoboto(Context context, AttributeSet attrs, int defStyle) {
+    public TextViewRobotoCondensedRegular(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        createFont();
+        if (!isInEditMode()) {
+            createFont();
+        }
     }
 
-    public TextViewRoboto(Context context, AttributeSet attrs) {
+    public TextViewRobotoCondensedRegular(Context context, AttributeSet attrs) {
         super(context, attrs);
-        createFont();
+        if (!isInEditMode()) {
+            createFont();
+        }
     }
 
-    public TextViewRoboto(Context context) {
+    public TextViewRobotoCondensedRegular(Context context) {
         super(context);
-        createFont();
+        if (!isInEditMode()) {
+            createFont();
+        }
     }
 
     public void createFont() {
