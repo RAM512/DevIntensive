@@ -71,13 +71,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserInfoViews.add(mGithub);
         mUserInfoViews.add(mBio);
 
-//        mAvatar = (ImageView) findViewById(R.id.user_avatar);
-
         mDataManager = DataManager.getInstance();
         loadUserInfoValue();
-
-        List<String> test = mDataManager.getPreferencesManager().loadUserProfileData();
-
 
         if (savedInstanceState == null) {
             showSnackBar("Активити запускается впервые");
