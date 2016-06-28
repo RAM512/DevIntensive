@@ -1,11 +1,15 @@
 package com.softdesign.devintensive.ui.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.managers.DataManager;
@@ -30,6 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout mDrawerLayout;
     private FloatingActionButton mFab;
     private EditText mPhone, mEmail, mVk, mGithub, mBio;
+    private ImageView mAvatar;
     private int mEditMode;
 
     private List<EditText> mUserInfoViews;
@@ -64,6 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserInfoViews.add(mVk);
         mUserInfoViews.add(mGithub);
         mUserInfoViews.add(mBio);
+
+//        mAvatar = (ImageView) findViewById(R.id.user_avatar);
 
         mDataManager = DataManager.getInstance();
         loadUserInfoValue();
@@ -174,6 +182,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setupDrawer() {
         final NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {
+            mAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_avatar);
+            Bitmap ava = BitmapFactory.decodeResource(getResources(), R.drawable.ava);
+            RoundedBitmapDrawable roundedAva = RoundedBitmapDrawableFactory.create(getResources(), ava);
+            roundedAva.setCircular(true);
+            mAvatar.setImageDrawable(roundedAva);
+
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {

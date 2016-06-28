@@ -8,10 +8,10 @@
     android:paddingBottom="@dimen/spacing_smaller_8"
                 android:background="@drawable/drawer_background_650x406">
     <ImageView
+        android:id="@+id/user_avatar"
         android:layout_width="@dimen/size_60"
         android:layout_height="@dimen/size_60"
-        android:layout_marginTop="@dimen/spacing_smaller_16"
-        android:background="@color/color_accent"/>
+        android:layout_marginTop="@dimen/spacing_smaller_16"/>
 
     <LinearLayout
         android:layout_width="match_parent"
