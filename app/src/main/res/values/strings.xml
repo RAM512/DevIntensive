@@ -13,4 +13,6 @@
     <string name="rating">Рейтинг</string>
     <string name="code_strings_text">Написано строк кода</string>
     <string name="projects_text">Проектов</string>
+    <string name="my_profile">Мой профиль</string>
+    <string name="team">Команда</string>
 </resources>

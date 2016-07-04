@@ -18,6 +18,7 @@
     <dimen name="spacing_small_24">24dp</dimen>
     <dimen name="spacing_small_32">32dp</dimen>
     <dimen name="spacing_medial_56">56dp</dimen>
+    <dimen name="size_60">60dp</dimen>
     <dimen name="spacing_medium_72">72dp</dimen>
     <dimen name="spacing_medium_80">80dp</dimen>
     <dimen name="spacing_large_96">96dp</dimen>
@@ -25,10 +26,14 @@
     <dimen name="line_size">2dp</dimen>
     <dimen name="size_88">88dp</dimen>
     <dimen name="size_104">104dp</dimen>
+    <dimen name="size_172">172dp</dimen>
 
     <!--Font_sizes-->
     <dimen name="font_size_16">16sp</dimen>
     <dimen name="font_size_20">20sp</dimen>
     <dimen name="font_size_24">24sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="profile_image_size">256dp</dimen>
+    <dimen name="fab_right_space">8dp</dimen>
 
 </resources>
