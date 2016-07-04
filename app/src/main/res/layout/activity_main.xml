@@ -29,14 +29,46 @@
                 android:layout_height="wrap_content"
                 app:contentScrim="@color/color_primary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <ImageView
-                    android:id="@+id/user_photo_img"
+                
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_image_size"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/full"
-                    android:fitsSystemWindows="true" />
+                    android:fitsSystemWindows="true">
+
+                    <ImageView
+                        android:id="@+id/user_photo_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/profile_image_size"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/full"
+                        android:fitsSystemWindows="true" />
+
+                    <RelativeLayout
+                        android:id="@+id/profile_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/gray_background"
+                        android:visibility="gone">
+
+                        <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/user_photo.placeholder.image"
+                            android:textColor="@color/white"
+                            android:layout_centerHorizontal="true"
+                            android:layout_above="@+id/photo_placeholder"
+                            android:layout_marginBottom="@dimen/spacing_smaller_8"/>
+                        <ImageView
+                            android:id="@+id/photo_placeholder"
+                            android:layout_width="@dimen/placeholder_image_size_90"
+                            android:layout_height="@dimen/placeholder_image_size_90"
+                            android:src="@drawable/ic_add_a_photo_black_24dp"
+                            android:scaleType="centerCrop"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/spacing_medial_56"/>
+                    </RelativeLayout>
+                </FrameLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -47,223 +79,7 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/programmer_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_104"
-                    android:background="@color/gray"
-                    android:orientation="horizontal"
-                    app:layout_behavior="com.softdesign.devintensive.ui.view.behaviors.ProgrammerStatusBehavior">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_weight="1">
-
-                        <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                            android:id="@+id/rating_count_text"
-                            style="@style/white_text"
-                            android:textSize="@dimen/font_size_24"
-                            android:text="5"/>
-                        <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                            style="@style/white_text"
-                            android:text="@string/rating"/>
-                    </LinearLayout>
-
-                    <View
-                        style="@style/vertical_line"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_weight="2">
-
-                        <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                            android:id="@+id/code_strings_count_text"
-                            style="@style/white_text"
-                            android:textSize="@dimen/font_size_24"
-                            android:text="5"/>
-                        <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                            style="@style/white_text"
-                            android:text="@string/code_strings_text"/>
-                    </LinearLayout>
-
-                    <View
-                        style="@style/vertical_line"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_weight="1">
-
-                        <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                            android:id="@+id/project_count_text"
-                            style="@style/white_text"
-                            android:textSize="@dimen/font_size_24"
-                            android:text="5"/>
-                        <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                            style="@style/white_text"
-                            android:text="@string/projects_text"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!--Мобильный номер-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_larger_72"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    >
-                    <ImageView
-                        style="@style/icon.left"
-                        android:src="@drawable/ic_call_black_24dp" />
-                    <LinearLayout
-                        style="@style/text_data">
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-                            <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                                android:id="@+id/phone_edit"
-                                style="@style/edit_text_disabled"
-                                android:hint="@string/mobile_number"
-                                android:inputType="phone"
-                                android:text="@string/my_phone"/>
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-                    <ImageView
-                        android:id="@+id/call_img"
-                        style="@style/icon.right"
-                        android:src="@drawable/ic_phone_in_talk_black_24dp" />
-                </LinearLayout>
-                <View style="@style/horizontal_line"/>
-
-                <!--E-mail-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_larger_72"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
-                    <ImageView
-                        style="@style/icon.left"
-                        android:src="@drawable/ic_email_black_24dp" />
-                    <LinearLayout
-                        style="@style/text_data">
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-                            <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                                android:id="@+id/email_edit"
-                                style="@style/edit_text_disabled"
-                                android:hint="@string/email"
-                                android:inputType="textEmailAddress"
-                                android:text="@string/my_email"/>
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-                    <ImageView
-                        style="@style/icon.right"
-                        android:src="@drawable/ic_send_black_24dp" />
-                </LinearLayout>
-                <View style="@style/horizontal_line"/>
-
-                <!--Профиль в VK-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_larger_72"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
-                    <ImageView
-                        style="@style/icon.left"
-                        android:src="@drawable/vk_social_logotype" />
-                    <LinearLayout
-                        style="@style/text_data">
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-                            <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                                android:id="@+id/vk_edit"
-                                style="@style/edit_text_disabled"
-                                android:hint="@string/vk_profile"
-                                android:inputType="textUri"
-                                android:text="@string/my_vk"/>
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-                    <ImageView
-                        style="@style/icon.right"
-                        android:src="@drawable/ic_visibility_black_24dp" />
-                </LinearLayout>
-                <View style="@style/horizontal_line"/>
-
-                <!--Репозиторий-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
-                    <ImageView
-                        style="@style/icon.left"
-                        android:src="@drawable/github_icon" />
-                    <LinearLayout
-                        style="@style/text_data" >
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-                            <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                                android:id="@+id/github_edit"
-                                style="@style/edit_text_disabled"
-                                android:hint="@string/repo"
-                                android:inputType="textMultiLine"
-                                android:text="@string/my_repo"/>
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-                    <ImageView
-                        style="@style/icon.right"
-                        android:src="@drawable/ic_visibility_black_24dp" />
-                </LinearLayout>
-                <View style="@style/horizontal_line"/>
-
-                <!--О себе-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
-                    <ImageView
-                        style="@style/icon.left"
-                        android:src="@drawable/ic_account_circle_black_24dp" />
-                    <LinearLayout
-                        style="@style/text_data" >
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-                            <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                                android:id="@+id/about_myself_edit"
-                                style="@style/edit_text_disabled"
-                                android:hint="@string/about_myself"
-                                android:inputType="textMultiLine"
-                                android:text="@string/my_about_myself"/>
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        <include layout="@layout/user_profile_content"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

@@ -1,9 +1,15 @@
 package com.softdesign.devintensive.ui.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,17 +19,21 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.managers.DataManager;
 import com.softdesign.devintensive.utils.ConstantManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +47,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private EditText mPhone, mEmail, mVk, mGithub, mBio;
     private ImageView mAvatar;
     private int mEditMode;
+    private RelativeLayout mProfilePlaceholder;
+    private CollapsingToolbarLayout mCollapsingToolbar;
+    private int mScrollFlags;
 
     private List<EditText> mUserInfoViews;
     private DataManager mDataManager;
+
+    private AppBarLayout mAppBarLayout;
+    private AppBarLayout.LayoutParams mAppBarParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +64,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Log.d(TAG, "onCreate()");
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         setupToolBar();
+
+        mAppBarLayout = (AppBarLayout)findViewById(R.id.appbar_layout);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
         setupDrawer();
@@ -73,6 +92,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         mDataManager = DataManager.getInstance();
         loadUserInfoValue();
+
+        mProfilePlaceholder = (RelativeLayout) findViewById(R.id.profile_placeholder);
+        mProfilePlaceholder.setOnClickListener(this);
 
         if (savedInstanceState == null) {
             showSnackBar("Активити запускается впервые");
@@ -131,6 +153,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     saveUserInfoValue();
                 }
                 break;
+
+            case R.id.profile_placeholder:
+                // TODO: 04.07.2016 сделать выбор откуда загружать фото
+                showDialog(ConstantManager.LOAD_PROFILE_PHOTO);
+                break;
         }
     }
 
@@ -168,6 +195,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setupToolBar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
+
+        mAppBarParams = (AppBarLayout.LayoutParams) mCollapsingToolbar.getLayoutParams();
+        mScrollFlags = mAppBarParams.getScrollFlags();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -195,6 +225,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * Получение данных из другой активности (из камеры или галереи)
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -215,8 +257,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         if (enableEdit) {
             mFab.setImageResource(R.drawable.ic_done_black_24dp);
+            showProfilePlaceholder();
+            lockToolbar();
+            mCollapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
         } else {
             mFab.setImageResource(R.drawable.ic_create_black_24dp);
+            hideProfilePlaceholder();
+            unlockToolbar();
         }
     }
 
@@ -233,5 +280,70 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             userData.add(et.getText().toString());
         }
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
+    }
+
+    private void loadPhotoFromCamera() {
+
+    }
+
+    private void loadPhotoFromGalery() {
+
+    }
+
+    private void hideProfilePlaceholder() {
+        mProfilePlaceholder.setVisibility(View.GONE);
+    }
+
+    private void showProfilePlaceholder() {
+        mProfilePlaceholder.setVisibility(View.VISIBLE);
+    }
+
+    private void lockToolbar () {
+        // TODO: 04.07.2016 разобраться с дерганой анимацией раскрытия
+        mAppBarLayout.setExpanded(true, true);
+        mAppBarParams.setScrollFlags(0);
+//        mCollapsingToolbar.setLayoutParams(mAppBarParams); //TODO нужна ли эта комманда?
+    }
+    public void unlockToolbar () {
+        mAppBarParams.setScrollFlags(mScrollFlags);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case ConstantManager.LOAD_PROFILE_PHOTO:
+                String[] selectItems = {getString(R.string.user_profile_dialog_galery),
+                        getString(R.string.user_profile_dialog_photo),
+                        getString(R.string.user_profile_dialog_cancel)};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.user_profile_dialog_title))
+                        .setItems(selectItems, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0: // TODO: 04.07.2016 загрузка из галереи
+                                        loadPhotoFromGalery();
+                                        showSnackBar("Загрузить из галереи");
+                                        break;
+                                    case 1: // TODO: 04.07.2016 сделать снимок
+                                        loadPhotoFromCamera();
+                                        showSnackBar("Сделать снимок");
+                                        break;
+                                    case 2: // TODO: 04.07.2016 отмена
+                                        dialog.cancel();
+                                        showSnackBar("Отмена");
+                                }
+                            }
+                        });
+                return builder.create();
+
+            default:
+                return null;
+        }
+    }
+
+    private File createImageFile() throws IOException {
+
     }
 }

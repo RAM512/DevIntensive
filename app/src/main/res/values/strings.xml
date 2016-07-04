@@ -15,4 +15,9 @@
     <string name="projects_text">Проектов</string>
     <string name="my_profile">Мой профиль</string>
     <string name="team">Команда</string>
+    <string name="user_photo.placeholder.image">Изменить фотографию профиля</string>
+    <string name="user_profile.dialog.galery">Загрузить из галереи</string>
+    <string name="user_profile.dialog.photo">Сделать снимок</string>
+    <string name="user_profile.dialog.cancel">Отмена</string>
+    <string name="user_profile.dialog.title">Изменить фотографию профиля</string>
 </resources>
