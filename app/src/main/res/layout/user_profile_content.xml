@@ -147,6 +147,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/send_email_img"
                 style="@style/icon.right"
                 android:src="@drawable/ic_send_black_24dp"/>
         </LinearLayout>
@@ -181,6 +182,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/open_vk_profile"
                 style="@style/icon.right"
                 android:src="@drawable/ic_visibility_black_24dp"/>
         </LinearLayout>
@@ -215,6 +217,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/open_github_repo"
                 style="@style/icon.right"
                 android:src="@drawable/ic_visibility_black_24dp"/>
         </LinearLayout>
