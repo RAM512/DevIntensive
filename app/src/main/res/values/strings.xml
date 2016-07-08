@@ -27,4 +27,5 @@
     <string name="login_form.dialog.forgot_password">Забыли пароль?</string>
     <string name="allow">Разрешить</string>
     <string name="permission_message">Для корректной работы необходимо дать требуемые разрешения</string>
+    <string name="user_data.error.message">Неверное значение</string>
 </resources>

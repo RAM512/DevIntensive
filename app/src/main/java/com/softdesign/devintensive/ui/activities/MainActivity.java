@@ -3,6 +3,7 @@ package com.softdesign.devintensive.ui.activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -29,9 +31,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -47,26 +52,43 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = ConstantManager.TAG_PREFIX + "MainActivity";
 
-    private CoordinatorLayout mCoordinatorLayout;
-    private Toolbar mToolbar;
-    private DrawerLayout mDrawerLayout;
-    private FloatingActionButton mFab;
-    private EditText mPhone, mEmail, mVk, mGithub, mBio;
-    private ImageView mAvatar;
+    @BindView(R.id.main_coordinator_container) CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbar;
+    @BindView(R.id.navigation_drawer) DrawerLayout mDrawerLayout;
+    private ImageView mAvatar; // инициализируется через mDrawerLayout
+
+    @BindView(R.id.fab) FloatingActionButton mFab;
+
+    @BindView(R.id.phone_edit) EditText mPhone;
+    @BindView(R.id.email_edit) EditText mEmail;
+    @BindView(R.id.vk_edit )EditText mVk;
+    @BindView(R.id.github_edit) EditText mGithub;
+    @BindView(R.id.about_myself_edit) EditText mBio;
+
+    @BindView(R.id.phone_text_input) TextInputLayout mPhoneTextInput;
+    @BindView(R.id.email_text_input) TextInputLayout mEmailTextInput;
+    @BindView(R.id.vk_text_input) TextInputLayout mVkTextInput;
+    @BindView(R.id.github_text_input) TextInputLayout mGithubTextInput;
+
+    @BindView(R.id.profile_placeholder) RelativeLayout mProfilePlaceholder;
+    @BindView(R.id.user_photo_img) ImageView mProfileImage;
     private int mEditMode;
-    private RelativeLayout mProfilePlaceholder;
-    private CollapsingToolbarLayout mCollapsingToolbar;
     private int mScrollFlags;
-    private ImageView mProfileImage;
 
     private List<EditText> mUserInfoViews;
     private DataManager mDataManager;
 
-    private AppBarLayout mAppBarLayout;
+    @BindView(R.id.appbar_layout) AppBarLayout mAppBarLayout;
     private AppBarLayout.LayoutParams mAppBarParams;
 
     private File mPhotoFile;
@@ -76,35 +98,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Log.d(TAG, "onCreate()");
 
         mDataManager = DataManager.getInstance();
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        setupToolBar();
-
-        mProfileImage = (ImageView) findViewById(R.id.user_photo_img);
         Picasso.with(this)
                 .load(mDataManager.getPreferencesManager().loadUserPhoto())
                 .placeholder(R.drawable.user_bg) // TODO: 06.07.2016 сделать transform + crop
                 .into(mProfileImage);
-
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
-        setupDrawer();
-
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator_container);
-
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mFab.setOnClickListener(this);
-
-        mPhone = (EditText) findViewById(R.id.phone_edit);
-        mEmail = (EditText) findViewById(R.id.email_edit);
-        mVk = (EditText) findViewById(R.id.vk_edit);
-        mGithub = (EditText) findViewById(R.id.github_edit);
-        mBio = (EditText) findViewById(R.id.about_myself_edit);
 
         mUserInfoViews = new ArrayList<>();
         mUserInfoViews.add(mPhone);
@@ -113,15 +115,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserInfoViews.add(mGithub);
         mUserInfoViews.add(mBio);
 
+        setupValidCheckOnTextChange();
+
+        setupToolBar();
+        setupDrawer();
         loadUserInfoValue();
-
-        findViewById(R.id.call_img).setOnClickListener(this);
-        findViewById(R.id.send_email_img).setOnClickListener(this);
-        findViewById(R.id.open_vk_profile).setOnClickListener(this);
-        findViewById(R.id.open_github_repo).setOnClickListener(this);
-
-        mProfilePlaceholder = (RelativeLayout) findViewById(R.id.profile_placeholder);
-        mProfilePlaceholder.setOnClickListener(this);
 
         if (savedInstanceState == null) {
 //            showSnackBar("Активити запускается впервые");
@@ -130,6 +128,55 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mEditMode = savedInstanceState.getInt(ConstantManager.EDIT_MODE_KEY, 0);
             changeEditMode(mEditMode);
         }
+    }
+
+    /**
+     * Настраивает автоматическую проверку при изменении каждом текста в данных
+     */
+    private void setupValidCheckOnTextChange() {
+        mPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isPhoneValid();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        mEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isEmailValid();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        mVk.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isVkValid();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        mGithub.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isGithubValid();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
     }
 
     @Override
@@ -169,6 +216,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    @OnClick ({R.id.call_img,
+            R.id.send_email_img,
+            R.id.open_vk_profile,
+            R.id.open_github_repo,
+            R.id.profile_placeholder,
+            R.id.fab})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
@@ -176,13 +229,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (mEditMode == 0) {
                     changeEditMode(1);
                 } else {
-                    changeEditMode(0);
-                    saveUserInfoValue();
+                    if (isDataValid()) {
+                        changeEditMode(0);
+                        saveUserInfoValue();
+                    }
                 }
                 break;
 
             case R.id.profile_placeholder:
-                // TODO: 04.07.2016 сделать выбор откуда загружать фото
                 showDialog(ConstantManager.LOAD_PROFILE_PHOTO);
                 break;
 
@@ -323,7 +377,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Настройка ToolBar (используется при создании активности)
+     * Настраивает ToolBar (используется при создании активности)
      */
     private void setupToolBar() {
         mCollapsingToolbar.setExpandedTitleColor(Color.WHITE);
@@ -342,7 +396,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Настройка Navigation Drawer (используется при создании активности)
+     * Настраивает Navigation Drawer (используется при создании активности)
      */
     private void setupDrawer() {
         final NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -366,7 +420,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Получение данных из другой активности (из камеры или галереи)
+     * Обрабатывает результат запроса на получение данных из другой активности (из камеры или галереи)
      *
      * @param requestCode
      * @param resultCode
@@ -409,11 +463,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             edit.setEnabled(enableEdit);
             edit.setFocusableInTouchMode(enableEdit);
         }
+
         if (enableEdit) {
+            isDataValid();
             mFab.setImageResource(R.drawable.ic_done_black_24dp);
             showProfilePlaceholder();
             lockToolbar();
             mCollapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
+            setFocus(mPhone);
         } else {
             mFab.setImageResource(R.drawable.ic_create_black_24dp);
             hideProfilePlaceholder();
@@ -421,6 +478,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mCollapsingToolbar.setExpandedTitleColor(Color.WHITE);
             mCollapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
             mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.custom_toolbar);
+        }
+    }
+
+    /**
+     * Переводит фокус на EditText, выставляет курсор в конец текста и открывает клавиатуру
+     * @param editText EditText, на который нужно перевести фокус
+     */
+    private void setFocus(EditText editText) {
+        if(editText.requestFocus()) {
+            editText.setSelection(editText.length());
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
@@ -446,7 +515,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Обращение к камере устройства для создания файла с фотографией
+     * Обращается к камере устройства для создания файла с фотографией
      */
     private void loadPhotoFromCamera() {
         if (permissionsCheck(new String[] {
@@ -470,7 +539,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Обращение к изображениям, сохраненным на устройстве, для выбора пользователем одного изображения.
+     * Обращается к изображениям, сохраненным на устройстве, для выбора пользователем одного изображения.
      */
     private void loadPhotoFromGalery() {
         Intent takeGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -480,7 +549,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Результат запроса на получение разрешений
+     * Обрабатывает оезультат запроса на получение разрешений
      * @param requestCode     идентификатор запроса разрешений
      * @param permissions     набор требуемых разрешений
      * @param grantResults    результат обработки запроса
@@ -532,7 +601,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Создание диалога в зависимости от переданного в параметрах идентификатора
+     * Создает диалог в зависимости от переданного в параметрах идентификатора
      * @param id
      * @return
      */
@@ -572,7 +641,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Создание пустого файла изображения. Используется для сохранения фотографии с камеры.
+     * Создает пустой файл изображения. Используется для сохранения фотографии с камеры.
      * @return
      * @throws IOException
      */
@@ -593,7 +662,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * Назначение изображения в профиль пользователя
+     * Назначает изображение в профиль пользователя
      * @param selectedImage путь к изображению пользователя
      */
     private void insertProfileImage(Uri selectedImage) {
@@ -603,4 +672,89 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
     }
+
+    /**
+     * Проверяет все пользовательские данные на корректность
+     * @return
+     */
+    private boolean isDataValid() {
+        boolean result = true;
+
+        if (!isPhoneValid() | !isEmailValid() | !isVkValid() | !isGithubValid()) {
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Проверяет телефонный номер на корректность
+     * @return
+     */
+    private boolean isPhoneValid() {
+        String phone = mPhone.getText().toString();
+        Pattern p = Pattern.compile("^(\\+?\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{2}[\\s.-]\\d{2}$");
+        if (!p.matcher(phone).matches()) {
+            mPhoneTextInput.setError(getString(R.string.user_data_error_message));
+            return false;
+        } else {
+            mPhoneTextInput.setError(null);
+            return true;
+        }
+    }
+
+    /**
+     * Проверяет электронную почту на корректность
+     * @return
+     */
+    private boolean isEmailValid() {
+        String email = mEmail.getText().toString();
+        Pattern p = Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+        if (!p.matcher(email).matches()) {
+            mEmailTextInput.setError(getString(R.string.user_data_error_message));
+            return false;
+        } else {
+            mEmailTextInput.setError(null);
+            return true;
+        }
+    }
+
+    /**
+     * Проверяет ссылку на страницу вконтакте на корректность
+     * @return
+     */
+    private boolean isVkValid() {
+        String vkLink = mVk.getText().toString().toLowerCase();
+        if (vkLink.startsWith("https://")) {
+            mVk.setText(vkLink.substring(8));
+        }
+        Pattern p = Pattern.compile("^(vk\\.com/)\\w{3,}");
+        if (!p.matcher(vkLink).matches()) {
+            mVkTextInput.setError(getString(R.string.user_data_error_message));
+            return false;
+        } else {
+            mVkTextInput.setError(null);
+            return true;
+        }
+    }
+
+    /**
+     * Проверяет ссылку на репозиторий гитхаба на корректностью
+     * @return
+     */
+    private boolean isGithubValid() {
+        String githubLink = mGithub.getText().toString().toLowerCase();
+        if (githubLink.startsWith("https://")) {
+            mGithub.setText(githubLink.substring(8));
+        }
+        Pattern p = Pattern.compile("^(github\\.com/)\\w{3,}/\\w{3,}");
+        if (!p.matcher(githubLink).matches()) {
+            mGithubTextInput.setError(getString(R.string.user_data_error_message));
+            return false;
+        } else {
+            mGithubTextInput.setError(null);
+            return true;
+        }
+    }
+
 }
