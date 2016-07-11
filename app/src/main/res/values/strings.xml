@@ -15,4 +15,17 @@
     <string name="projects_text">Проектов</string>
     <string name="my_profile">Мой профиль</string>
     <string name="team">Команда</string>
+    <string name="user_photo.placeholder.image">Изменить фотографию профиля</string>
+    <string name="user_profile.dialog.galery">Загрузить из галереи</string>
+    <string name="user_profile.dialog.photo">Сделать снимок</string>
+    <string name="user_profile.dialog.cancel">Отмена</string>
+    <string name="user_profile.dialog.title">Изменить фотографию профиля</string>
+    <string name="user_profile.choose.message">Выберите фото</string>
+    <string name="user_profile.choose.email_app">Отправка письма...</string>
+    <string name="password">Пароль</string>
+    <string name="login_form.dialog.enter">ВОЙТИ</string>
+    <string name="login_form.dialog.forgot_password">Забыли пароль?</string>
+    <string name="allow">Разрешить</string>
+    <string name="permission_message">Для корректной работы необходимо дать требуемые разрешения</string>
+    <string name="user_data.error.message">Неверное значение</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.softdesign.devintensive.managers;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.util.Log;
 
 import com.softdesign.devintensive.utils.ConstantManager;
 import com.softdesign.devintensive.utils.DevIntensiveApplication;
@@ -23,6 +25,10 @@ public class PreferencesManager {
         mSharedPreferences = DevIntensiveApplication.getSharedPreferences();
     }
 
+    /**
+     * Сохраняет набор данных в долгосрочную память.
+     * @param userData
+     */
     public void saveUserProfileData(List<String> userData) {
         SharedPreferences.Editor edit = mSharedPreferences.edit();
         for (int i = 0; i < USER_FIELDS.length; i++) {
@@ -31,11 +37,36 @@ public class PreferencesManager {
         edit.apply();
     }
 
+    /**
+     * Загружает набор данных из долгосрочной памяти.
+     * @return
+     */
     public List<String> loadUserProfileData() {
         ArrayList<String> userData = new ArrayList<>();
         for (int i = 0; i < USER_FIELDS.length; i++) {
             userData.add(mSharedPreferences.getString(USER_FIELDS[i], "null"));
         }
         return  userData;
+    }
+
+    /**
+     * Сохраняет путь к пользовательскому изображению в долгосрочную память.
+     * @param uri
+     */
+    public void saveUserPhoto(Uri uri) {
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+        edit.putString(ConstantManager.USER_PHOTO_KEY, uri.toString());
+        edit.apply();
+    }
+
+    /**
+     * Загружает путь к пользовательскому изображению из долгосрочной памяти.
+     * @return
+     */
+    public Uri loadUserPhoto() {
+        String stringUri = mSharedPreferences.getString(ConstantManager.USER_PHOTO_KEY,
+                "android.resource://com.softdesign.devintensive/drawable/full");
+        Uri uri = Uri.parse(stringUri);
+        return uri;
     }
 }

@@ -79,4 +79,9 @@
         <item name="android:fullDark">@android:color/transparent</item>
     </style>
 
+    <style name="custom_toolbar">
+        <item name="android:textSize">@dimen/expanded_title_size</item>
+    </style>
+
+    <dimen name="expanded_title_size">32sp</dimen>
 </resources>

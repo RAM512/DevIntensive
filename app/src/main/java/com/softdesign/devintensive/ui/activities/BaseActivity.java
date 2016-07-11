@@ -10,9 +10,6 @@ import android.widget.Toast;
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.utils.ConstantManager;
 
-/**
- * Created by Alex on 27.06.2016.
- */
 public class BaseActivity extends AppCompatActivity {
     public static final String TAG = ConstantManager.TAG_PREFIX + "BaseActivity";
     protected ProgressDialog mProgressDialog;
