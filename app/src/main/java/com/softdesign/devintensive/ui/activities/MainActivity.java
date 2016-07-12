@@ -40,9 +40,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softdesign.devintensive.R;
-import com.softdesign.devintensive.managers.DataManager;
+import com.softdesign.devintensive.data.managers.DataManager;
+import com.softdesign.devintensive.data.managers.PreferencesManager;
 import com.softdesign.devintensive.utils.ConstantManager;
 import com.squareup.picasso.Picasso;
 
@@ -68,6 +70,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mAvatar; // инициализируется через mDrawerLayout
 
     @BindView(R.id.fab) FloatingActionButton mFab;
+
+    @BindView(R.id.rating_count_text) TextView mUserValueRating;
+    @BindView(R.id.code_strings_count_text) TextView mUserValueCodeLines;
+    @BindView(R.id.project_count_text) TextView mUserValueProjects;
+    private List<TextView> mUserValueViews;
 
     @BindView(R.id.phone_edit) EditText mPhone;
     @BindView(R.id.email_edit) EditText mEmail;
@@ -115,11 +122,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserInfoViews.add(mGithub);
         mUserInfoViews.add(mBio);
 
+        mUserValueViews = new ArrayList<>();
+        mUserValueViews.add(mUserValueRating);
+        mUserValueViews.add(mUserValueCodeLines);
+        mUserValueViews.add(mUserValueProjects);
+
         setupValidCheckOnTextChange();
 
         setupToolBar();
         setupDrawer();
-        loadUserInfoValue();
+        initUserFields();
+        initUserInfoValue();
 
         if (savedInstanceState == null) {
 //            showSnackBar("Активити запускается впервые");
@@ -231,7 +244,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     if (isDataValid()) {
                         changeEditMode(0);
-                        saveUserInfoValue();
+                        saveUserFields();
                     }
                 }
                 break;
@@ -496,22 +509,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     /**
      * Загружает сохраненные данные, прописывая их в соответствующие поля интерфейса
      */
-    private void loadUserInfoValue() {
-        List<String> userData = mDataManager.getPreferencesManager().loadUserProfileData();
+    private void initUserFields() {
+        PreferencesManager pm = mDataManager.getPreferencesManager();
+        List<String> userData = pm.loadUserProfileData();
         for (int i = 0; i < userData.size(); i++) {
             ((EditText) mUserInfoViews.get(i)).setText(userData.get(i));
         }
+        setTitle(pm.loadUserName());
     }
 
     /**
      * Сохраняет введенные в поля данные в долгосрочную память
      */
-    private void saveUserInfoValue() {
+    private void saveUserFields() {
         ArrayList<String> userData = new ArrayList<>();
         for (EditText et : mUserInfoViews) {
             userData.add(et.getText().toString());
         }
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
+    }
+
+    private void initUserInfoValue() {
+        List<String> userData = mDataManager.getPreferencesManager().loadUserProfileValues();
+        for (int i = 0; i < userData.size(); i++) {
+            mUserValueViews.get(i).setText(userData.get(i));
+        }
     }
 
     /**
@@ -726,7 +748,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private boolean isVkValid() {
         String vkLink = mVk.getText().toString().toLowerCase();
         if (vkLink.startsWith("https://")) {
-            mVk.setText(vkLink.substring(8));
+            vkLink = vkLink.substring(8);
+            mVk.setText(vkLink);
         }
         Pattern p = Pattern.compile("^(vk\\.com/)\\w{3,}");
         if (!p.matcher(vkLink).matches()) {
@@ -745,9 +768,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private boolean isGithubValid() {
         String githubLink = mGithub.getText().toString().toLowerCase();
         if (githubLink.startsWith("https://")) {
-            mGithub.setText(githubLink.substring(8));
+            githubLink = githubLink.substring(8);
+            mGithub.setText(githubLink);
         }
-        Pattern p = Pattern.compile("^(github\\.com/)\\w{3,}/\\w{3,}");
+        Pattern p = Pattern.compile("^(github\\.com/\\w{3,}/\\w{3,})");
         if (!p.matcher(githubLink).matches()) {
             mGithubTextInput.setError(getString(R.string.user_data_error_message));
             return false;
