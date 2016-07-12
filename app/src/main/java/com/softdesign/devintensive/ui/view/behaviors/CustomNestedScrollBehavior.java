@@ -1,30 +1,24 @@
 package com.softdesign.devintensive.ui.view.behaviors;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.utils.UiHelper;
 
-public class ProgrammerStatusBehavior<V extends LinearLayout> extends AppBarLayout.ScrollingViewBehavior {
+/**
+ * Created by Alex on 12.07.2016.
+ */
+public class CustomNestedScrollBehavior extends AppBarLayout.ScrollingViewBehavior {
     private final int mMaxAppbarHeight;
     private final int mMinAppbarHeight;
     private final int mMaxProgrammerStatusHeight;
-    private final int mMinProgrammerStatusHeight;
 
-    public ProgrammerStatusBehavior(Context context, AttributeSet attrs) {
+    public CustomNestedScrollBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.ProgrammerStatusBehavior);
-        mMinProgrammerStatusHeight = a.getDimensionPixelSize(
-                R.styleable.ProgrammerStatusBehavior_behavior_min_height, 56);
-        a.recycle();
         mMinAppbarHeight = UiHelper.getActionBarHeight(); // 80dp
         mMaxAppbarHeight = context.getResources().getDimensionPixelSize(R.dimen.profile_image_size); // 256dp
         mMaxProgrammerStatusHeight = context.getResources().getDimensionPixelSize(R.dimen.size_user_info); // 112dp
@@ -37,11 +31,11 @@ public class ProgrammerStatusBehavior<V extends LinearLayout> extends AppBarLayo
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
-        float currentFriction = UiHelper.currentFriction(mMinAppbarHeight, mMaxAppbarHeight, dependency.getBottom());
-        int currentHeight = UiHelper.lerp(mMinProgrammerStatusHeight, mMaxProgrammerStatusHeight, currentFriction);
+        float friction = UiHelper.currentFriction(mMinAppbarHeight, mMaxAppbarHeight, dependency.getBottom());
+        int offsetY = UiHelper.lerp(mMaxProgrammerStatusHeight/2, mMaxProgrammerStatusHeight, friction);
 
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-        lp.height = currentHeight;
+        lp.topMargin = offsetY;
         child.setLayoutParams(lp);
 
         return super.onDependentViewChanged(parent, child, dependency);

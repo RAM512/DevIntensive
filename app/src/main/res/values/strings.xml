@@ -28,4 +28,5 @@
     <string name="allow">Разрешить</string>
     <string name="permission_message">Для корректной работы необходимо дать требуемые разрешения</string>
     <string name="user_data.error.message">Неверное значение</string>
+    <string name="auth.authorization_enter">Войти</string>
 </resources>

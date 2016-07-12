@@ -79,6 +79,79 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
+        <LinearLayout
+            android:id="@+id/programmer_status"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_104"
+            android:background="@color/grey"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_behavior=".ui.view.behaviors.ProgrammerStatusBehavior"
+            app:behavior_min_height="@dimen/size_medium_56"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
+                    android:id="@+id/rating_count_text"
+                    style="@style/white_text"
+                    android:textSize="@dimen/font_size_24"
+                    android:text="5"/>
+
+                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
+                    style="@style/white_text"
+                    android:text="@string/rating"/>
+            </LinearLayout>
+
+            <View
+                style="@style/vertical_line"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="2">
+
+                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
+                    android:id="@+id/code_strings_count_text"
+                    style="@style/white_text"
+                    android:textSize="@dimen/font_size_24"
+                    android:text="5"/>
+
+                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
+                    style="@style/white_text"
+                    android:text="@string/code_strings_text"/>
+            </LinearLayout>
+
+            <View
+                style="@style/vertical_line"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
+                    android:id="@+id/project_count_text"
+                    style="@style/white_text"
+                    android:textSize="@dimen/font_size_24"
+                    android:text="5"/>
+
+                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
+                    style="@style/white_text"
+                    android:text="@string/projects_text"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
         <include layout="@layout/user_profile_content"/>
 
         <android.support.design.widget.FloatingActionButton

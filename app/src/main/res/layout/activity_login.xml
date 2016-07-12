@@ -35,7 +35,7 @@
             android:layout_height="wrap_content">
 
             <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                android:id="@+id/login_email"
+                android:id="@+id/login_email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content">
 
             <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
-                android:id="@+id/login_password"
+                android:id="@+id/login_password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
