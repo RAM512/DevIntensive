@@ -5,83 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_behavior=".ui.view.behaviors.CustomNestedScrollBehavior"
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/programmer_status"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_104"
-            android:background="@color/gray"
-            android:orientation="horizontal"
-            app:layout_behavior="com.softdesign.devintensive.ui.view.behaviors.ProgrammerStatusBehavior">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                    android:id="@+id/rating_count_text"
-                    style="@style/white_text"
-                    android:textSize="@dimen/font_size_24"
-                    android:text="5"/>
-
-                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                    style="@style/white_text"
-                    android:text="@string/rating"/>
-            </LinearLayout>
-
-            <View
-                style="@style/vertical_line"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="2">
-
-                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                    android:id="@+id/code_strings_count_text"
-                    style="@style/white_text"
-                    android:textSize="@dimen/font_size_24"
-                    android:text="5"/>
-
-                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                    style="@style/white_text"
-                    android:text="@string/code_strings_text"/>
-            </LinearLayout>
-
-            <View
-                style="@style/vertical_line"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
-
-                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                    android:id="@+id/project_count_text"
-                    style="@style/white_text"
-                    android:textSize="@dimen/font_size_24"
-                    android:text="5"/>
-
-                <com.softdesign.devintensive.ui.view.TextViewRobotoCondensedRegular
-                    style="@style/white_text"
-                    android:text="@string/projects_text"/>
-            </LinearLayout>
-
-        </LinearLayout>
 
         <!--Мобильный номер-->
         <LinearLayout

@@ -53,10 +53,8 @@
 
     <style name="vertical_line">
         <item name="android:layout_width">@dimen/line_size</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">@dimen/size_medium_56</item>
         <item name="android:background">@color/gray_light</item>
-        <item name="android:layout_marginTop">@dimen/spacing_small_24</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_small_24</item>
     </style>
 
     <style name="edit_text_disabled">
@@ -64,7 +62,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:enabled">false</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColorHint">@color/grey</item>
         <item name="android:focusable">false</item>
     </style>
     
@@ -84,4 +82,8 @@
     </style>
 
     <dimen name="expanded_title_size">32sp</dimen>
+
+    <style name="AppTheme.Button.Red" parent="Base.Widget.AppCompat.Button">
+        <item name="android:colorButtonNormal">@color/color_accent</item>
+    </style>
 </resources>
