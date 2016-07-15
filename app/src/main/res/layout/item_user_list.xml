@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="2dp"
+    android:layout_marginTop="@dimen/spacing_smaller_8"
+    app:cardBackgroundColor="@color/white"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.softdesign.devintensive.ui.view.AspectRatioImageView
+                android:id="@+id/user_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/full"
+                android:scaleType="centerCrop"
+                app:aspect_ratio="1.78"/>
+
+            <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
+                android:id="@+id/user_full_name_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Фамилия Имя"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_24"
+                android:paddingLeft="@dimen/font_size_16"
+                android:paddingRight="@dimen/font_size_16"
+                android:paddingBottom="@dimen/font_size_24"
+                android:layout_gravity="bottom"
+                />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_larger_72"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:gravity="center_horizontal"
+               android:layout_weight="0.25">
+
+               <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
+                   android:id="@+id/rating_txt"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0"
+                   android:textSize="@dimen/font_size_20"
+                   android:textColor="@color/black"/>
+               <com.softdesign.devintensive.ui.view.TextViewRobotoRegular
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Рейтинг"
+                   android:textSize="@dimen/font_14"
+                   android:textColor="@color/black"/>
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:gravity="center_horizontal"
+               android:layout_weight="0.25">
+
+               <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
+                   android:id="@+id/code_lines_txt"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0"
+                   android:textSize="@dimen/font_size_20"
+                   android:textColor="@color/black"/>
+               <com.softdesign.devintensive.ui.view.TextViewRobotoRegular
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Написано строк кода"
+                   android:textSize="@dimen/font_14"
+                   android:textColor="@color/black"/>
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:gravity="center_horizontal"
+               android:layout_weight="0.25">
+
+               <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
+                   android:id="@+id/projects_txt"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="0"
+                   android:textSize="@dimen/font_size_20"
+                   android:textColor="@color/black"/>
+               <com.softdesign.devintensive.ui.view.TextViewRobotoRegular
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Проектов"
+                   android:textSize="@dimen/font_14"
+                   android:textColor="@color/black"/>
+           </LinearLayout>
+        </LinearLayout>
+
+        <com.softdesign.devintensive.ui.view.TextViewRobotoRegular
+            android:id="@+id/bio_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey_light"
+            android:text="@string/profile.bio.dummy"
+            android:maxLines="3"
+            android:paddingRight="@dimen/spacing_smaller_16"
+            android:paddingLeft="@dimen/spacing_smaller_16"
+            android:textSize="@dimen/font_size_16"/>
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_light"
+            android:layout_marginTop="@dimen/spacing_smaller_16"
+            android:layout_marginBottom="@dimen/spacing_smaller_16"/>
+        
+        <Button
+            android:id="@+id/more_info_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="@string/card_item.button.more_info"
+            android:textColor="@color/color_accent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/spacing_smaller_16"
+            android:paddingRight="@dimen/spacing_smaller_16"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -47,7 +47,7 @@
                         android:id="@+id/profile_placeholder"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/gray_background"
+                        android:background="@color/grey_background"
                         android:visibility="gone">
 
                         <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
@@ -72,10 +72,11 @@
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    style="@style/AppTheme.PopupOverlay"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"/>
+                    app:layout_collapseMode="pin"
+                    app:theme="@style/ToolbarStyle"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
@@ -86,7 +87,7 @@
             android:background="@color/grey"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            app:layout_behavior=".ui.view.behaviors.ProgrammerStatusBehavior"
+            app:layout_behavior=".ui.behaviors.ProgrammerStatusBehavior"
             app:behavior_min_height="@dimen/size_medium_56"
             >
 

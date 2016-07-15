@@ -1,4 +1,4 @@
-package com.softdesign.devintensive.ui.view.behaviors;
+package com.softdesign.devintensive.ui.behaviors;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
@@ -9,9 +9,6 @@ import android.view.View;
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.utils.UiHelper;
 
-/**
- * Created by Alex on 12.07.2016.
- */
 public class CustomNestedScrollBehavior extends AppBarLayout.ScrollingViewBehavior {
     private final int mMaxAppbarHeight;
     private final int mMinAppbarHeight;

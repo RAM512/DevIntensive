@@ -393,9 +393,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * Настраивает ToolBar (используется при создании активности)
      */
     private void setupToolBar() {
+        mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.custom_toolbar);
         mCollapsingToolbar.setExpandedTitleColor(Color.WHITE);
         mCollapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
-        mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.custom_toolbar);
 
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -490,7 +490,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             unlockToolbar();
             mCollapsingToolbar.setExpandedTitleColor(Color.WHITE);
             mCollapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
-            mCollapsingToolbar.setExpandedTitleTextAppearance(R.style.custom_toolbar);
         }
     }
 
