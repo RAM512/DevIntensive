@@ -72,7 +72,7 @@
                android:layout_height="wrap_content"
                android:orientation="vertical"
                android:gravity="center_horizontal"
-               android:layout_weight="0.25">
+               android:layout_weight="0.5">
 
                <com.softdesign.devintensive.ui.view.TextViewRobotoMedium
                    android:id="@+id/code_lines_txt"
