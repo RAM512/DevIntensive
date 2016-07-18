@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    app:layout_behavior=".ui.behaviors.CustomNestedScrollBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--Репозиторий-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <ImageView
+                style="@style/icon.left"
+                android:src="@drawable/github_icon"/>
+
+            <ListView
+                android:id="@+id/repositories_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_small_32">
+
+            </ListView>
+
+            <ImageView
+                android:id="@+id/open_github_repo"
+                style="@style/icon.right"
+                android:src="@drawable/ic_visibility_black_24dp"/>
+        </LinearLayout>
+
+        <View style="@style/horizontal_line"/>
+
+        <!--О себе-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <ImageView
+                style="@style/icon.left"
+                android:src="@drawable/ic_account_circle_black_24dp"/>
+
+            <LinearLayout
+                style="@style/text_data">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.softdesign.devintensive.ui.view.EditTextRobotoCondensedRegular
+                        android:id="@+id/about_myself_edit"
+                        style="@style/edit_text_disabled"
+                        android:hint="@string/about_myself"
+                        android:inputType="textMultiLine"
+                        android:text="@string/profile.bio.dummy"/>
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

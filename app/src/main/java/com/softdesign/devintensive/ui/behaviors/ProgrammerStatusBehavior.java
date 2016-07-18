@@ -1,10 +1,9 @@
-package com.softdesign.devintensive.ui.view.behaviors;
+package com.softdesign.devintensive.ui.behaviors;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
