@@ -29,4 +29,5 @@ public interface ConstantManager {
     int CALL_PHONE_REQUEST_PERMISSION_CODE = 103;
 
     String PARCELABLE_KEY = "PARCELABLE_KEY";
+    int SEARCH_DELAY = 1500;
 }
