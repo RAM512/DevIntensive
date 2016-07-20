@@ -80,7 +80,6 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void loginSuccsess(UserModelRes userModel) {
-        showSnackBar(userModel.getData().getToken());
         mDataManager.getPreferencesManager().saveAuthToken(userModel.getData().getToken());
         mDataManager.getPreferencesManager().saveUserId(userModel.getData().getUser().getId());
         saveUserValues(userModel);

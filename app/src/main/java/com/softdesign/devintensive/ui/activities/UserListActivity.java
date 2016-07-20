@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +24,7 @@ import com.softdesign.devintensive.data.managers.DataManager;
 import com.softdesign.devintensive.data.storage.models.User;
 import com.softdesign.devintensive.data.storage.models.UserDto;
 import com.softdesign.devintensive.ui.adapters.UsersAdapter;
+import com.softdesign.devintensive.utils.AsyncDbLoader;
 import com.softdesign.devintensive.utils.ConstantManager;
 
 import java.util.List;
@@ -29,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class UserListActivity extends AppCompatActivity {
+public class UserListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<User>> {
 
     @BindView(R.id.main_coordinator_container) CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -42,6 +45,7 @@ public class UserListActivity extends AppCompatActivity {
     private MenuItem mSearchItem;
     private String mQuery;
     private Handler mHandler;
+    private Loader<List<User>> mUserListLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,8 @@ public class UserListActivity extends AppCompatActivity {
         mDataManager = DataManager.getInstance();
         setupToolbar();
         setupDrawer();
-        loadUsersFromDb();
+        mUserListLoader = getSupportLoaderManager().initLoader(0, null, this);
+//        loadUsersFromDb();
     }
 
     @Override
@@ -77,7 +82,6 @@ public class UserListActivity extends AppCompatActivity {
         if (users.size() == 0) {
             showSnackBar("Список пользователей не может быть загружен");
         } else {
-// TODO: 19.07.2016 поиск по базе
             showUsers(users);
         }
     }
@@ -150,4 +154,19 @@ public class UserListActivity extends AppCompatActivity {
         mHandler.postDelayed(searchUsers, ConstantManager.SEARCH_DELAY);
     }
 
+    @Override
+    public Loader<List<User>> onCreateLoader(int id, Bundle args) {
+        return new AsyncDbLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<User>> loader, List<User> data) {
+        mUsers = data;
+        showUsers(mUsers);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<User>> loader) {
+
+    }
 }
