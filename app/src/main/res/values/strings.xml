@@ -31,4 +31,5 @@
     <string name="auth.authorization_enter">Войти</string>
     <string name="auth.forgot">Забыли пароль?</string>
     <string name="card_item.button.more_info">Просмотр</string>
+    <string name="search_action_hint_enter_user_name">Введите имя пользователя</string>
 </resources>

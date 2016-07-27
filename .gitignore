@@ -43,3 +43,5 @@ local.properties
 
 # Android Studio Navigation editor temp files
 .navigation
+
+!/build/outputs/apk/app-debug.apk
